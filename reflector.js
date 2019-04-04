@@ -7,6 +7,7 @@ var app = express();
 // On configure Express pour servir les fichiers contenus dans public/
 // à l'url /s
 app.use('/s', express.static('public'));
+app.use('/s', express.static('static'));
 
 let jours = { 'mon' : 'Lundi',
               'tue' : 'Mardi',
@@ -28,12 +29,8 @@ app.get('/', function(req, res) {
 });
 
 app.get("/query_string", function(req, res) {
-  var str2 = "";
-  for(var j2 in req.query){
-    str2 += req.query[j2]+"<br>";
-    
-  }
-  res.send(str2);
+  //res.send(req.query);
+  res.send(req._parsedUrl.query);
   
 });
 
