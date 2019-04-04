@@ -9,6 +9,8 @@ var app = express();
 app.use('/s', express.static('public'));
 app.use('/s', express.static('static'));
 app.use(require('body-parser').urlencoded({ extended: false }));
+const cookieP = require('cookie-parser');
+app.use(cookieP());
 
 let jours = { 'mon' : 'Lundi',
               'tue' : 'Mardi',
@@ -19,14 +21,15 @@ let jours = { 'mon' : 'Lundi',
               'sun' : 'Dimanche' };
 
 // On définit une route pour l'url /
-app.get('/', function(req, res) {
-  let str = "";
-  for(let j in jours){
-    str += jours[j]+"<br>";
+app.all('/', function(req, res) {
+  if(Object.keys(req.query).length !== 0){
+    res.send(req.query);
+  }else if(Object.keys(req.body).length !== 0) {
+    res.send(req.body);
   }
-  
-  res.send(str);
-    
+  else if(Object.keys(req.headers).length !== 0) {
+    res.send(req.headers);
+  }
 });
 
 app.get("/query_string", function(req, res) {
@@ -39,6 +42,11 @@ app.post("/form_data", function(req, res) {
   //res.send(req.query);
   res.send(req.body);
   
+});
+
+app.all("/headers", function(req, res) {
+  //res.send(req.cookies);
+  res.send(req.headers);
 });
 
 // On lance l'application
