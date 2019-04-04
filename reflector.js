@@ -27,6 +27,16 @@ app.get('/', function(req, res) {
     
 });
 
+app.get("/query_string", function(req, res) {
+  var str2 = "";
+  for(var j2 in req.query){
+    str2 += req.query[j2]+"<br>";
+    
+  }
+  res.send(str2);
+  
+});
+
 // On lance l'application
 // (process.env.PORT est un paramètre fourni par Glitch)
 app.listen(process.env.PORT);
