@@ -8,6 +8,7 @@ var app = express();
 // à l'url /s
 app.use('/s', express.static('public'));
 app.use('/s', express.static('static'));
+app.use(require('body-parser').urlencoded({ extended: false }));
 
 let jours = { 'mon' : 'Lundi',
               'tue' : 'Mardi',
@@ -31,6 +32,12 @@ app.get('/', function(req, res) {
 app.get("/query_string", function(req, res) {
   //res.send(req.query);
   res.send(req._parsedUrl.query);
+  
+});
+
+app.post("/form_data", function(req, res) {
+  //res.send(req.query);
+  res.send(req.body);
   
 });
 
